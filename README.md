@@ -1,4 +1,4 @@
-# go-docker-template
+# go-prectice
   
 Template files when building a Go development environment with docker.  
   
