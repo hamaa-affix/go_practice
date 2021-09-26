@@ -1,6 +1,9 @@
 package main
 
-import "fmt"
+import (
+	"fmt"
+	"strconv"
+)
 
 func ReturnFunc() func() {
 	return func ()  {
@@ -57,4 +60,51 @@ func main() {
 	fmt.Println(f5())
 	fmt.Println(f5())
 	fmt.Println(f5())
+
+	//if文
+	a := 0
+	if a == 2 {
+		fmt.Println("two")
+	} else {
+		fmt.Println("i don't know")
+	}
+	//errorハンドリング
+	var t string = "100"
+
+	i, err := strconv.Atoi(t)
+	if err != nil {
+		println(err)
+	}
+	println("t = %T\n", t)
+
+	o := 0
+	for {
+		o ++
+		if o == 3 {
+			break
+		}
+		fmt.Println("hi")
+	}
+
+	point := 0
+	for point < 10 {
+		fmt.Println(point)
+		point++
+	}
+
+	// for i := 0; i < 10; i++ {
+	// 	if i == 3 {
+	// 		continue
+	// 	}
+	// 	fmt.Println(i)
+	// }
+
+	 arr := [3]int{1, 2, 3}
+	// for i:=0; i < len(arr); i++ {
+	// 	fmt.Println(arr[i])
+	// }
+
+	for i, v := range arr {
+		fmt.Println(i, v)
+	}
 }
