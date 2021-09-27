@@ -34,6 +34,15 @@ func CallFunction(f func()) {
 		}
 	}
 
+	func anything(a interface{}) {
+		switch v := a.(type) {
+		case string:
+			fmt.Println(v + "!?")
+		case int:
+			fmt.Println(v + 10000)
+		}
+	}
+
 func main() {
 
 	//無記名関数 クロージャー
@@ -107,4 +116,38 @@ func main() {
 	for i, v := range arr {
 		fmt.Println(i, v)
 	}
+
+	//スイッチ文
+	// n := 1
+	// switch n {
+	// case 1, 2:
+	// 	fmt.Println("1 or 2")
+	// case 3, 4:
+	// 	fmt.Println("3 or 4")
+	// default:
+	// 	fmt.Println("I don't know")
+	// }
+	// switch n :=2; n {
+	// case 1, 2:
+	// 	fmt.Println("1 or 2")
+	// case 3, 4:
+	// 	fmt.Println("3 or 4")
+	// default:
+	// 	fmt.Println("I don't know")
+	// }
+	n := 6
+	switch {
+	case n > 0 && n < 4:
+		fmt.Println("0 < n < 4")
+	case n > 3 && n < 7:
+		fmt.Println("3 < n < 7")
+	}
+
+	anything("aaa")
+	anything(1)
+
+	//型アサーション
+	var x interface{} = 3
+	it := x.(int)
+	fmt.Println(it + 2)
 }
