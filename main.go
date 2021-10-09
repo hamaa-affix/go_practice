@@ -2,59 +2,53 @@ package main
 
 import "fmt"
 
-func ReturnFunc() func() {
-	return func ()  {
-		fmt.Println("I am fucntion")
-	}
-}
-
-func CallFunction(f func()) {
-	f()
-}
-
- //クロージャー
-  func Later() func(string) string {
-		var store string
-		return func (next string) string {
-				s := store
-				store = next
-				return s
-		}
-	}
-
-	//ジェネレーター なんらかのルールをもとに連続した値を返す。go ではジェネレーターはないがクロージャーで実装可能
-	func integers() func () int {
-		i := 0
-		return func() int {
-			  i ++
-				return i
-		}
-	}
+//スライス
 
 func main() {
+	var sl []int
+	fmt.Println(sl)
 
-	//無記名関数 クロージャー
-	f := func (x, y int) int {
-			return x + y
+	//明示的宣言
+	var sl2 []int = []int{100, 200}
+	fmt.Println(sl2)
+
+	s3 := []string{"A", "B"}
+	fmt.Println(s3)
+
+	s4 := make([]int, 5)
+	fmt.Println(s4)
+
+	ssl5 := []int{100, 200}
+	fmt.Println(ssl5)
+
+	ssl5 = append(ssl5, 400)
+	fmt.Println(ssl5)
+
+	sl6 := make([]int, 5)
+	fmt.Println(sl6)
+
+	fmt.Println(len(sl6))
+
+	fmt.Println(cap(sl6))
+
+	sl7 := []int{100, 200}
+
+	sl8 := sl7
+
+	sl8[0] = 1000
+	fmt.Println(sl7)
+	fmt.Println(sl8)
+
+	sl9 := []int{1, 2, 3, 4, 5}
+	sl10 := make([]int, 5, 10)
+	fmt.Println(sl10)
+	n := copy(sl10, sl9)
+	fmt.Println(n, sl10)
+
+	sls := []string{"A", "B", "C"}
+	fmt.Println(sls)
+
+	for i, v := range sls {
+		fmt.Println(i, v)
 	}
-	i := f(1, 2)
-	fmt.Println(i)
-
-	//関数を返す関数
-	f2 := ReturnFunc()
-	f2()
-
-	//引数に関数をとる。クロージャ的
-	CallFunction(func ()  {
-		fmt.Println("Iam argu")
-	})
-
-	f4 := Later()
-	fmt.Println(f4("hello"))
-
-	f5 := integers()
-	fmt.Println(f5())
-	fmt.Println(f5())
-	fmt.Println(f5())
-	fmt.Println(f5())
 }
