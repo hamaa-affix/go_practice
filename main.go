@@ -4,25 +4,28 @@ import (
 	"fmt"
 )
 
+//pointer
+func Dubole(i int) {
+	i = i * 2
+	fmt.Println(&i)
+}
+//ポインタで受け取る仕様の関数を定義する必要がある
+func Dubolev2(i *int) {
+	*i = *i * 2
+}
+
 func main() {
-	var m = map[string]int{"A": 100, "B": 200}
-	fmt.Println(m)
+	var n int = 100
+	fmt.Println(n)
 
-	m1 := map[string]int{"B": 300, "C": 400}
-	fmt.Println(m1)
+	//memoryのアドレスを確認する
+	fmt.Println(&n)
 
-	m2 := make(map[int]string)
-	fmt.Println(m2)
-	m2[1] = "JAPAN"
-	m2[2] = "USA"
-	fmt.Println(m2)
+	//下記だと値渡しになっているから下記の関数での変数のアドレスは違うもになる
+	Dubole(n)
 
-	_, isValue := m2[3]
-	if !isValue {
-		 fmt.Println("error")
-	}
-
-	for i, v := range m2 {
-		fmt.Println(i, v)
-	}
+	//参照渡しにする為にはポインタ型で値を渡してやる必要がある
+	var p *int = &n
+	Dubolev2(p)
+	fmt.Println(n)
 }
