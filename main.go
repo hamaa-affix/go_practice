@@ -5,28 +5,86 @@ import (
 	//"time"
 )
 
-//pointer
-func Dubole(i int) {
-	i = i * 2
-	fmt.Println(&i)
+type User struct {
+	Name string
+	Age  int
 }
-//ポインタで受け取る仕様の関数を定義する必要がある
-func Dubolev2(i *int) {
-	*i = *i * 2
+
+type Job struct {
+	Name string
+}
+
+type T struct {
+	User
+	Job
+}
+
+func intUser1(user User) {
+	user.Name = "user1です"
+	user.Age = 25
+}
+
+func intUser(user *User) {
+	user.Name = "userですよ"
+	user.Age = 20
+}
+
+func (u User) sayName() {
+	fmt.Println(u.Name)
+}
+
+//setter 参照渡しになる
+func (u  *User) setName(name string) {
+	u.Name = name
 }
 
 func main() {
-	var n int = 100
-	fmt.Println(n)
+	var user1 User
+	fmt.Println(user1)
+	user1.Name = "user1"
+	user1.Age = 30
+	fmt.Println(user1)
 
-	//memoryのアドレスを確認する
-	fmt.Println(&n)
+	//暗黙的な宣言
+	user2 := User{}
+	user2.Name = "user2"
+	user2.Age = 30
+	fmt.Println(user2)
 
-	//下記だと値渡しになっているから下記の関数での変数のアドレスは違うもになる
-	Dubole(n)
+	user3 := User{Name: "user3", Age: 30}
+	fmt.Println(user3)
 
-	//参照渡しにする為にはポインタ型で値を渡してやる必要がある
-	var p *int = &n
-	Dubolev2(p)
-	fmt.Println(n)
+	user4 := new(User)
+	fmt.Println(user4)
+
+	//値渡しではデータの更新はされない
+	intUser1(user3)
+	fmt.Println(user3)
+
+	//参照渡しではデータは更新される
+	intUser(&user3)
+	fmt.Println(user3)
+
+	//レシバーの定義をする
+	user5 := User{Name: "user5"}
+	user5.sayName()
+
+	//setterを利用する
+	user5.setName("chengName")
+	user5.sayName()
+
+	//構造体の埋め込み
+	user6 := T{User: User{Name: "user6", Age: 30}}
+	fmt.Println(user6.User.Name)
+
+	user7 := T{
+		User: User{
+			Name: "user7",
+			Age: 30,
+		},
+		Job: Job{
+			Name: "Ns",
+		},
+	}
+	fmt.Println(user7.Job.Name)
 }
