@@ -2,66 +2,24 @@ package main
 
 import (
 	"fmt"
-	//"time"
+	"newmod/alib"
+	"newmod/foo"
 )
 
-//interface
-type stringfy interface {
-	ToString() string
-}
-
-type Person struct {
-	Name string
-	Age int
-}
-
-func (p *Person) ToString()string {
-	return fmt.Sprintf("Name=%v, Age=%v", p.Name, p.Age)
-}
-
-type Car struct {
-	Number string
-	Model string
-}
-
-func (c *Car) ToString() string {
-	return fmt.Sprintf("Number=%v Model=%v", c.Number, c.Model)
-}
-
-//カスタムエラー
-type MyError struct {
-	Message string
-	ErrorCode int
-}
-
-func (e *MyError) Error() string {
-	return e.Message
-}
-
-func RaiseError() error {
-	return &MyError{
-		Message: "カスタムエラーが発生しました",
-		ErrorCode: 1234 ,
+//test
+func IsOne(i int) bool {
+	if i == 1 {
+		return true
+	} else {
+		return false
 	}
 }
+
+//package  のインポート
 func main() {
-	//interfaceを定義することでスライスに異なる型を定義できる
-	vm := []stringfy {
-		&Person{
-			Name: "mami",
-			Age: 32,
-		},
-		&Car{
-			Number: "123-111",
-			Model: "toyota",
-		},
-	}
+		fmt.Println(foo.Max)
+		fmt.Println(foo.ReturnMin())
 
-
-	for _, v := range vm {
-		fmt.Println(v)
-	}
-
-	err := RaiseError()
-	fmt.Println(err.Error())
+		s := []int{1, 2, 3, 4, 5}
+		fmt.Println(alib.Average(s))
 }
