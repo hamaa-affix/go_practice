@@ -6,6 +6,7 @@ import (
 	"newmod/foo"
 	"log"
 	"os"
+	"sort"
 )
 
 //test
@@ -17,6 +18,10 @@ func IsOne(i int) bool {
 	}
 }
 
+type Entry struct {
+		Name string
+		Value int
+}
 //logの出力
 
 //package  のインポート
@@ -41,4 +46,27 @@ func main() {
 		//作成したio.Writer型のファイルを出力先に設定する
 		log.SetOutput(f)
 		log.Println("ファイルに書き込む")
+
+		//sort
+		i := []int{2, 4 ,5, 1, 3}
+		sort.Ints(i)
+		fmt.Println(i)
+
+		string := []string{"a", "y", "u", "b"}
+		sort.Strings(string)
+		fmt.Println(string)
+
+		//sliceテーブル
+		el := []Entry{
+			{"A", 20},
+			{"t", 30},
+			{"b", 40},
+			{"c", 50},
+			{"t", 20},
+			{"a", 40},
+		}
+
+		fmt.Println(el)
+		sort.Slice(el, func(i, j int) bool { return el[i].Name < el[j].Name})
+		fmt.Println(el)
 }
