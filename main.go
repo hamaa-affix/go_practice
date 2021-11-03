@@ -1,72 +1,53 @@
 package main
 
 import (
+	"database/sql"
 	"fmt"
-	"newmod/alib"
-	"newmod/foo"
 	"log"
-	"os"
-	"sort"
+
+	_ "github.com/go-sql-driver/mysql"
 )
 
-//test
-func IsOne(i int) bool {
-	if i == 1 {
-		return true
-	} else {
-		return false
-	}
+type User struct {
+	id int
+	name string
 }
 
-type Entry struct {
-		Name string
-		Value int
-}
-//logの出力
-
-//package  のインポート
 func main() {
-		fmt.Println(foo.Max)
-		fmt.Println(foo.ReturnMin())
+	// データベース接続
+    db, _ := sql.Open("mysql", "root:root@tcp(mysql:3306)/go_database")
 
-		s := []int{1, 2, 3, 4, 5}
-		fmt.Println(alib.Average(s))
+    // deferで処理終了前に必ず接続をクローズする
+    defer db.Close()
 
-		//標準出力を行う
-		log.SetOutput(os.Stdout)//logの出力先を標準出力に変える
-		log.Print("Log\n")
-		log.Println("Log2")
-		log.Printf("Log%d\n", 3)
+    // 接続確認
+	// cmd := "INSERT INTO users(name) VALUES(?)"
+	// _, err := db.Exec(cmd, "kotoha")
 
-		//任意のファイルにログを出力させる
-		f, err := os.Create("test.log")
+    //特定のuserの取得
+	// cmd := "select * from users where id = ?"
+	// //レコードの取得
+	// row := db.QueryRow(cmd, 3)
+	// var user User
+	// //Scanで構造体にデータ挿入する。
+	// err := row.Scan(&user.id, &user.name)
+
+	//一覧を取得
+	cmd := "select * from users"
+	rows, _ := db.Query(cmd)
+	defer rows.Close()
+	var users []User
+
+	for rows.Next() {
+		var user User
+		err := rows.Scan(&user.id, &user.name)
 		if err != nil {
-			return
+			log.Println(err)
 		}
-		//作成したio.Writer型のファイルを出力先に設定する
-		log.SetOutput(f)
-		log.Println("ファイルに書き込む")
+		users = append(users, user)
+	}
 
-		//sort
-		i := []int{2, 4 ,5, 1, 3}
-		sort.Ints(i)
-		fmt.Println(i)
-
-		string := []string{"a", "y", "u", "b"}
-		sort.Strings(string)
-		fmt.Println(string)
-
-		//sliceテーブル
-		el := []Entry{
-			{"A", 20},
-			{"t", 30},
-			{"b", 40},
-			{"c", 50},
-			{"t", 20},
-			{"a", 40},
-		}
-
-		fmt.Println(el)
-		sort.Slice(el, func(i, j int) bool { return el[i].Name < el[j].Name})
-		fmt.Println(el)
+	for _, user := range users {
+		fmt.Println(user.id, user.name)
+	}
 }
